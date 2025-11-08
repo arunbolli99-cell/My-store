@@ -1,0 +1,53 @@
+
+
+.signIn_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: linear-gradient(135deg, #f0f4ff, #dfe9ff);
+  padding: 20px;
+}
+
+.signIn_box {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  padding: 30px 40px;
+}
+
+.h1{
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.sign-in_form {
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#username_div, #password_div {
+  position: relative;
+  right:20px;
+}
+
+label { 
+    color: #083ebe;
+    font-family: 'Poppins', sans-serif;
+ }
+
+
+.submit_btn {
+  background: #f5e403;
+  color: #121111;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}

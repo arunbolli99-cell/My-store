@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './SignUp.css';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -146,7 +147,7 @@ function SignUp() {
 
         <form onSubmit={handleSubmit} className="signup-form">
           {/* Name Fields */}
-          <div className="form-row">
+        
             <div className="form-group">
               <label htmlFor="firstName">
                 First Name <span className="required">*</span>
@@ -178,7 +179,7 @@ function SignUp() {
               />
               
             </div>
-          </div>
+          
 
           {/* Email Field */}
           <div className="form-group">
@@ -256,7 +257,7 @@ function SignUp() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className={errors.confirmPassword ? 'error' : ''}
-                placeholder="Confirm your password"
+                placeholder="Confirm password"
               />
               <button
                 type="button"

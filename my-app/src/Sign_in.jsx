@@ -1,20 +1,28 @@
+
+import "./SignIn.css";
+
 function  SignIn() {
   return (
-    <div>
+    <div className="signIn_container">
+      <div className="signIn_box">
       <h1>Sign In Page</h1>
       <form className="sign-in_form">
+        <div id="username_div" className="form-group">
         <label>
-          Username:
-          <input id="username_input" type="text" name="username" />
+          Username <span className="required">*</span>
         </label>
-        <br />
+        <input id="username_input" type="text" name="username" />
+        </div>
+        
+         <div id="password_div" className="form-group">
         <label>
-          Password:
-          <input id="password_input" type="password" name="password" />
+          Password <span className="required">*</span> 
         </label>
-        <br />
-        <button type="submit">Sign In</button>
+        <input id="password_input" type="password" name="password" />
+        </div>
+        <button className="submit_btn" type="submit">Sign In</button>
       </form>
+      </div>
     </div>
   )
 }
