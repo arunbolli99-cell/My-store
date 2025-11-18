@@ -17,6 +17,44 @@ function CartPage() {
         );
     }
 
+const handleCheckout = async () => {
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        alert("You must log in first!");
+        navigate("/signin");
+        return;
+    }
+
+    const orderData = {
+        cart_userId: userId,
+        cart_items: cartItems.map(item => ({
+            cart_productId: item.id,
+            cart_quantity: item.quantity,
+            cart_price: item.price
+        })),
+        cart_totalAmount: getCartTotal()
+    };
+
+    try {
+        const response = await fetch("http://localhost:5000/usercart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderData)
+        });
+
+        const data = await response.json();
+        console.log("Order saved:", data);
+
+        clearCart();
+        navigate("/delivery-address");
+
+    } catch (error) {
+        console.error("Error sending order:", error);
+    }
+};
+
+
     return (
         <div className="cart-page">
             <h1 id="heading2">Shopping Cart</h1>
@@ -71,7 +109,9 @@ function CartPage() {
                         <span>Total:</span>
                         <span>₹ {getCartTotal().toFixed(2)}</span>
                     </div>
-                    <button className="checkout-btn" onClick={() => navigate('/delivery-address')}>Proceed to Checkout</button>
+                    <button className="checkout-btn" onClick={handleCheckout}>Proceed to Checkout</button>
+
+
                     <button onClick={clearCart} className="clear-cart-btn">Clear Cart</button>
                     <Link to="/categories">
                         <button className="continue-shopping-btn">Continue Shopping</button>
