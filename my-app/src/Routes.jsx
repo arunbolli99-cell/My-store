@@ -16,8 +16,8 @@ import Contact from "./Contact.jsx";
 import Product from "./Product.jsx";
 import CartPage from "./Cart_page.jsx";
 import Checkout from "./Checkout.jsx";
-import SignIn from "./sign_in.jsx";
-import SignUp from "./sign_up.jsx";
+import SignIn from "./Sign_in.jsx";
+import SignUp from "./Sign_up.jsx";
 
 function AppRoutes() {
   return (

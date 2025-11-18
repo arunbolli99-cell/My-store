@@ -10,7 +10,6 @@ function SignIn() {
     email: "",
     password: "",
   });
-  const [isloged, setIsloged] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,8 +29,7 @@ function SignIn() {
       alert(response.data.message);
 
       if (response.status === 200) {
-        setIsloged(true);
-        
+
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userId", response.data.userId);
 
