@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'https://my-store-backend-h6ho.onrender.com';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('authToken');

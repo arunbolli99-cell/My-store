@@ -42,7 +42,7 @@ function Checkout() {
 
     const sendOrderEmail = async (userEmail, orderData) => {
         try {
-            await fetch("http://localhost:5000/send-mail", {
+            await fetch("https://my-store-backend-h6ho.onrender.com/send-mail", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
