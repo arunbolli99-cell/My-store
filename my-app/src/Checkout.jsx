@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useCart } from './CartContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import apiService from './apiService';
 
 function Checkout() {
     const { cartItems, getCartTotal, clearCart } = useCart();
@@ -11,10 +12,11 @@ function Checkout() {
         fullName: '',
         email: '',
         phone: '',
-        address: '',
+        street: '',
         city: '',
         state: '',
-        pincode: ''
+        pincode: '',
+        country: 'India'
     });
     const [selectedPayment, setSelectedPayment] = useState('');
 
@@ -38,24 +40,61 @@ function Checkout() {
         setStep(2);
     };
 
-    const handlePaymentSubmit = () => {
-        const orderDetails = {
-            orderId: 'ORD' + Date.now(),
-            items: cartItems,
-            total: getCartTotal(),
-            address: addressDetails,
-            paymentMethod: selectedPayment,
-            date: new Date().toISOString()
-        };
+    const sendOrderEmail = async (userEmail, orderData) => {
+        try {
+            await fetch("http://localhost:5000/send-mail", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: userEmail,
+                    subject: "Order Confirmation",
+                    orderDetails: orderData
+                })
+            });
+        } catch (error) {
+            console.error("Error sending order confirmation email:", error);
+        }
+    };
 
-        // Store order in localStorage (in real app, send to backend)
-        const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
-        existingOrders.push(orderDetails);
-        localStorage.setItem('orders', JSON.stringify(existingOrders));
+    const handlePaymentSubmit = async () => {
+        try {
+            const paymentMethodMap = {
+                'upi': 'UPI',
+                'card': 'Card',
+                'cod': 'COD',
+                'netbanking': 'Card'
+            };
 
-        alert(`Order placed successfully! Order ID: ${orderDetails.orderId}`);
-        clearCart();
-        navigate('/orders');
+            const address = {
+                street: addressDetails.street,
+                city: addressDetails.city,
+                pincode: addressDetails.pincode,
+                state: addressDetails.state,
+                country: addressDetails.country
+            };
+
+            const paymentMethod = paymentMethodMap[selectedPayment] || 'COD';
+
+            const response = await apiService.placeOrder(address, paymentMethod);
+
+            const orderDetails = {
+                orderId: response.orderId || 'ORD' + Date.now(),
+                items: cartItems,
+                totalAmount: getCartTotal(),
+                address: addressDetails,
+                paymentMethod: selectedPayment,
+                date: new Date().toISOString()
+            };
+
+            await sendOrderEmail(addressDetails.email, orderDetails);
+
+            alert(`Order placed successfully! Order ID: ${orderDetails.orderId}`);
+            await clearCart();
+            navigate('/orders');
+        } catch (error) {
+            console.error("Error placing order:", error);
+            alert(error.message || "Error placing order. Please try again.");
+        }
     };
 
     // Generate UPI payment link
@@ -104,8 +143,8 @@ function Checkout() {
                     <div className="form-group">
                         <label>Address *</label>
                         <textarea
-                            name="address"
-                            value={addressDetails.address}
+                            name="street"
+                            value={addressDetails.street}
                             onChange={handleInputChange}
                             required
                         />

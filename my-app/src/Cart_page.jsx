@@ -1,57 +1,59 @@
 import { useCart } from './CartContext.jsx';
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function CartPage() {
     const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
     const navigate = useNavigate();
+    const [couponCode, setCouponCode] = useState('');
+    const [discountPercentage, setDiscountPercentage] = useState(0);
+    const [couponMessage, setCouponMessage] = useState('');
+
+    const applyCoupon = () => {
+        if (couponCode.toUpperCase() === 'WELCOME10') {
+            setDiscountPercentage(10);
+            setCouponMessage('✓ Coupon applied! You got 10% discount');
+        } else if (couponCode.trim() === '') {
+            setCouponMessage('Please enter a coupon code');
+        } else {
+            setDiscountPercentage(0);
+            setCouponMessage('Invalid coupon code');
+        }
+    };
+
+    const subtotal = getCartTotal();
+    const discountAmount = (subtotal * discountPercentage) / 100;
+    const finalTotal = subtotal - discountAmount;
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+            navigate("/sign-in");
+        }
+    }, [navigate]);
 
     if (cartItems.length === 0) {
         return (
             <div className="empty-cart">
                 <h1 id="heading2">Your Cart is Empty</h1>
                 <p>Add some products to your cart to see them here.</p>
-                <Link to="/categories">
+                <Link to="/">
                     <button className="continue-shopping-btn">Continue Shopping</button>
                 </Link>
             </div>
         );
     }
 
-const handleCheckout = async () => {
-    const userId = localStorage.getItem("userId");
+const handleCheckout = () => {
+    const token = localStorage.getItem("authToken");
 
-    if (!userId) {
+    if (!token) {
         alert("You must log in first!");
-        navigate("/signin");
+        navigate("/sign-in");
         return;
     }
 
-    const orderData = {
-        cart_userId: userId,
-        cart_items: cartItems.map(item => ({
-            cart_productId: item.id,
-            cart_quantity: item.quantity,
-            cart_price: item.price
-        })),
-        cart_totalAmount: getCartTotal()
-    };
-
-    try {
-        const response = await fetch("http://localhost:5000/usercart", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderData)
-        });
-
-        const data = await response.json();
-        console.log("Order saved:", data);
-
-        clearCart();
-        navigate("/delivery-address");
-
-    } catch (error) {
-        console.error("Error sending order:", error);
-    }
+    navigate("/delivery-address");
 };
 
 
@@ -97,17 +99,36 @@ const handleCheckout = async () => {
                 </div>
                 <div className="cart-summary">
                     <h2>Order Summary</h2>
+                    
+                    <div className="coupon-section">
+                        <input
+                            type="text"
+                            placeholder="Enter coupon code"
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)}
+                            className="coupon-input"
+                        />
+                        <button onClick={applyCoupon} className="apply-coupon-btn">Apply</button>
+                        {couponMessage && <p className="coupon-message">{couponMessage}</p>}
+                    </div>
+
                     <div className="summary-row">
                         <span>Subtotal:</span>
-                        <span>₹ {getCartTotal().toFixed(2)}</span>
+                        <span>₹ {subtotal.toFixed(2)}</span>
                     </div>
+                    {discountPercentage > 0 && (
+                        <div className="summary-row discount">
+                            <span>Discount ({discountPercentage}%):</span>
+                            <span>-₹ {discountAmount.toFixed(2)}</span>
+                        </div>
+                    )}
                     <div className="summary-row">
                         <span>Shipping:</span>
                         <span>Free</span>
                     </div>
                     <div className="summary-row total">
                         <span>Total:</span>
-                        <span>₹ {getCartTotal().toFixed(2)}</span>
+                        <span>₹ {finalTotal.toFixed(2)}</span>
                     </div>
                     <button className="checkout-btn" onClick={handleCheckout}>Proceed to Checkout</button>
 

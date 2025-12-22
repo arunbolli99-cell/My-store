@@ -12,80 +12,60 @@ export function UseAuth() {
 
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(() => {
-        const savedUser = localStorage.getItem('currentUser');
-        return savedUser ? JSON.parse(savedUser) : null;
+        const userId = localStorage.getItem('userId');
+        if (!userId) return null;
+        
+        return {
+            userId: userId,
+            firstName: localStorage.getItem('firstName') || '',
+            lastName: localStorage.getItem('lastName') || '',
+            email: localStorage.getItem('email') || '',
+        };
     });
 
-    const [users, setUsers] = useState(() => {
-        const savedUsers = localStorage.getItem('users');
-        return savedUsers ? JSON.parse(savedUsers) : [];
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        return !!localStorage.getItem('authToken');
     });
-
-    useEffect(() => {
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    }, [currentUser]);
-
-    useEffect(() => {
-        localStorage.setItem('users', JSON.stringify(users));
-    }, [users]);
 
     const signup = (userData) => {
-        // Check if user already exists
-        const existingUser = users.find(user => user.email === userData.email);
-        if (existingUser) {
-            return { success: false, message: 'User with this email already exists' };
-        }
-
-        // Create new user
-        const newUser = {
-            id: Date.now().toString(),
-            ...userData,
-            createdAt: new Date().toISOString()
-        };
-
-        setUsers(prevUsers => [...prevUsers, newUser]);
+        localStorage.setItem('firstName', userData.firstName);
+        localStorage.setItem('lastName', userData.lastName);
+        localStorage.setItem('email', userData.email);
         return { success: true, message: 'Account created successfully!' };
     };
 
-    const signin = (email, password) => {
-        const user = users.find(u => u.email === email && u.password === password);
-        if (user) {
-            // Don't store password in currentUser
-            const { password, ...userWithoutPassword } = user;
-            setCurrentUser(userWithoutPassword);
-            return { success: true, message: 'Signed in successfully!' };
-        }
-        return { success: false, message: 'Invalid email or password' };
+    const signin = (loginData) => {
+        const { token, userId, firstName, lastName, email } = loginData;
+        
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('firstName', firstName);
+        localStorage.setItem('lastName', lastName);
+        localStorage.setItem('email', email);
+        
+        setCurrentUser({ userId, firstName, lastName, email });
+        setIsAuthenticated(true);
+        
+        return { success: true, message: 'Signed in successfully!' };
     };
 
     const signout = () => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('email');
+        localStorage.removeItem('cart');
         setCurrentUser(null);
-        localStorage.removeItem('currentUser');
-    };
-
-    const updateProfile = (updatedData) => {
-        if (!currentUser) return { success: false, message: 'No user logged in' };
-
-        const updatedUser = { ...currentUser, ...updatedData };
-        setCurrentUser(updatedUser);
-        
-        setUsers(prevUsers =>
-            prevUsers.map(user =>
-                user.id === currentUser.id ? { ...user, ...updatedData } : user
-            )
-        );
-
-        return { success: true, message: 'Profile updated successfully!' };
+        setIsAuthenticated(false);
     };
 
     const value = {
         currentUser,
-        users,
-        signup,
         signin,
         signout,
-        updateProfile,
-        isAuthenticated: !!currentUser
+        signup,
+        isAuthenticated
     };
 
     return (

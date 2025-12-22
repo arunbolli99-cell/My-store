@@ -2,17 +2,16 @@
 
 import AppRoutes from "./Routes.jsx";
 import { CartProvider } from "./CartContext.jsx";
+import { AuthProvider } from "./AuthContext.jsx";
 
 function App() {
    return( 
    <>
-    <CartProvider>
-
-   
-      <AppRoutes />
-
-    </CartProvider>
-    
+    <AuthProvider>
+      <CartProvider>
+        <AppRoutes />
+      </CartProvider>
+    </AuthProvider>
    </>
     )
 

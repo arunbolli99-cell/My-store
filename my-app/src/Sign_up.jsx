@@ -1,9 +1,14 @@
+
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { UseAuth } from './AuthContext';
+import apiService from './apiService';
 import './SignUp.css';
 
 function SignUp() {
   const navigate = useNavigate();
+  const { signup } = UseAuth();
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,7 +24,6 @@ function SignUp() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prevState => ({
@@ -27,13 +31,11 @@ function SignUp() {
       [name]: type === 'checkbox' ? checked : value
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
-  // Validate form
   const validateForm = () => {
     const newErrors = {};
 
@@ -51,7 +53,22 @@ function SignUp() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Submit form data to backend
+  const sendWelcomeEmail = async (userEmail, userName) => {
+    try {
+      await fetch('http://localhost:5000/send-mail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: userEmail,
+          subject: 'Welcome to Our Store',
+          userName: userName
+        })
+      });
+    } catch (error) {
+      console.error('Error sending welcome email:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,26 +76,28 @@ function SignUp() {
 
     setIsLoading(true);
 
-    console.log("📤 Sending to backend:", formData);
-
-
     try {
-      const response = await fetch('http://localhost:5000/adduser', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+      const response = await apiService.register({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        alert('✅ Account created successfully!');
-        navigate('/sign-in');
-      } else {
-        alert(`❌ ${data.error || 'Failed to create account'}`);
-      }
+      signup({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email
+      });
+
+      const fullName = `${formData.firstName} ${formData.lastName}`;
+      await sendWelcomeEmail(formData.email, fullName);
+      alert('✅ Account created successfully!');
+      navigate('/sign-in');
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Server error. Please try again later.');
+      alert(`❌ ${error.message || 'Failed to create account'}`);
     } finally {
       setIsLoading(false);
     }

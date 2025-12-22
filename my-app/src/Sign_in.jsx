@@ -1,45 +1,50 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { UseAuth } from "./AuthContext";
+import apiService from "./apiService";
 import "./SignIn.css";
 
 function SignIn() {
   const navigate = useNavigate();
+  const { signin } = UseAuth();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // stop page refresh
-    console.log(formData);
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/login",
-        formData,
-        { withCredentials: true }
-      );
+      const response = await apiService.login(formData.email, formData.password);
+      
+      signin({
+        token: response.token,
+        userId: response.userId,
+        firstName: response.firstName,
+        lastName: response.lastName,
+        email: response.email
+      });
 
-      alert(response.data.message);
-
-      if (response.status === 200) {
-
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userId", response.data.userId);
-
-        navigate("/");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Invalid credentials");
+      alert(response.message || "Signed in successfully!");
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Invalid credentials");
+      alert(err.message || "Invalid credentials");
+    } finally {
+      setIsLoading(false);
     }
-    
   };
 
   return (
@@ -54,10 +59,11 @@ function SignIn() {
             </label>
             <input
               id="username_input"
-              type="text"
+              type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -71,11 +77,14 @@ function SignIn() {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              required
             />
           </div>
 
-          <button className="submit_btn" type="submit">
-            Sign In
+          {error && <p className="error-message">{error}</p>}
+
+          <button className="submit_btn" type="submit" disabled={isLoading}>
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
       </div>

@@ -18,6 +18,7 @@ import CartPage from "./Cart_page.jsx";
 import Checkout from "./Checkout.jsx";
 import SignIn from "./Sign_in.jsx";
 import SignUp from "./Sign_up.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 function AppRoutes() {
   return (
@@ -33,11 +34,11 @@ function AppRoutes() {
         <Route path="/electronics" element={<Electronics />} />
         <Route path="/kitchen" element={<Kitchen />} />
         <Route path="/product/:productId" element={<Product />} />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/delivery-address" element={<Checkout />} />
+        <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
+        <Route path="/delivery-address" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
       </Routes>

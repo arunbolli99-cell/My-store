@@ -1,33 +1,27 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext.jsx";
+import { UseAuth } from "./AuthContext.jsx";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { getCartCount } = useCart();
+  const { signout, isAuthenticated } = UseAuth();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check login status from localStorage
   useEffect(() => {
-  const checkLogin = () => {
-    const status = localStorage.getItem("isLoggedIn");
-    setIsLoggedIn(status === "true");
-  };
+    const checkLogin = () => {
+      const token = localStorage.getItem("authToken");
+      setIsLoggedIn(!!token);
+    };
 
-  checkLogin();
+    checkLogin();
+  }, [location.pathname, isAuthenticated]);
 
-  // Re-run whenever route changes
-  return () => {};
-}, [location.pathname]);
-
-
-  // Logout handler
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userId");
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    signout();
     navigate("/sign-in");
   };
 
