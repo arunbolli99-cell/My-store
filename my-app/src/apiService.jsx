@@ -53,6 +53,24 @@ export const apiService = {
     return handleResponse(response);
   },
 
+  sendOtp: async (email) => {
+    const response = await fetch(`${API_BASE_URL}/auth/send-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    return handleResponse(response);
+  },
+
+  verifyOtp: async (email, otp) => {
+    const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, otp }),
+    });
+    return handleResponse(response);
+  },
+
   // Cart endpoints
   addToCart: async (productId, quantity, price) => {
     const response = await fetch(`${API_BASE_URL}/cart/add`, {
