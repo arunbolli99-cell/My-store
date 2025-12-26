@@ -23,10 +23,23 @@ const handleResponse = async (response) => {
     throw new Error('Invalid or expired token');
   }
   
-  const data = await response.json();
+  let data;
+  try {
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+      data = { message: text };
+    }
+  } catch (parseError) {
+    console.error('Error parsing response:', parseError);
+    throw new Error('Invalid response format from server');
+  }
   
   if (!response.ok) {
-    throw new Error(data.message || data.error || 'An error occurred');
+    const errorMessage = data.message || data.error || data.msg || 'An error occurred';
+    throw new Error(errorMessage);
   }
   
   return data;
@@ -49,24 +62,6 @@ export const apiService = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-    });
-    return handleResponse(response);
-  },
-
-  sendOtp: async (email) => {
-    const response = await fetch(`${API_BASE_URL}/auth/send-otp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
-    return handleResponse(response);
-  },
-
-  verifyOtp: async (email, otp) => {
-    const response = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, otp }),
     });
     return handleResponse(response);
   },
