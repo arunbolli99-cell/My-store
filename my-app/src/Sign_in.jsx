@@ -46,7 +46,7 @@ function SignIn() {
         lastName: response.lastName,
         email: response.email
       });
-
+     alert(`Welcome ${response.firstName} ${response.lastName}! Login successful 🎉`);
       navigate("/");
     } catch (err) {
       console.error(err);
