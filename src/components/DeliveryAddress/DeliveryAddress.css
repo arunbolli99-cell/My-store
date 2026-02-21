@@ -1,0 +1,326 @@
+/* DeliveryAddress Container */
+.delivery-address-container {
+    max-width: 700px;
+    /* Match SignUp width */
+    margin: 20px auto 20px auto;
+    padding: 30px 40px;
+    /* Match SignUp padding */
+    background-color: #fff;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    /* Keep the nice shadow */
+    font-family: 'Poppins', sans-serif;
+    /* Removed flex centering for the overall container so the list stays normal */
+}
+
+.delivery-address-container h2,
+.delivery-address-container h3 {
+    margin-top: 20px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.delivery-address-container p.error-message {
+    color: #e74c3c;
+    text-align: center;
+    background-color: #fdecea;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* Address List Cards */
+/* Address List Cards */
+.address-card {
+    position: relative;
+    /* For absolute pos of badge */
+    border: 2px solid #000;
+    /* Default BLACK border as requested */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center content horizontally */
+    text-align: center;
+}
+
+.address-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.address-card.selected {
+    border: 2px solid #083ebe;
+    /* Blue border when selected */
+    background-color: #f7faff;
+    /* Very light blue bg */
+}
+
+.selected-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #083ebe;
+    color: white;
+    padding: 4px 12px;
+    border-top-left-radius: 10px;
+    /* Match card radius */
+    border-bottom-right-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.address-icon {
+    position: absolute;
+    top: 50%;
+    left: 60px;
+    font-size: 20px;
+    transform: translateY(-50%);
+    color: #083ebe;
+    /* Brand Blue */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.address-icon svg {
+    width: 50px;
+    height: 50px;
+}
+
+.card-header {
+    /* Reset header styles */
+    margin: 15px 0 8px 0;
+}
+
+.card-header h4 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.phone-text {
+    margin: 0 0 5px 0;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.address-text {
+    margin: 5px 0 15px 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 90%;
+}
+
+.delete-address-btn {
+    align-self: flex-end;
+    /* Move to right */
+    background: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-right: 10px;
+    /* Spacing from edge */
+}
+
+.delete-address-btn:hover {
+    background: #fff5f5;
+    transform: scale(1.02);
+}
+
+/* Form Styles - Centered Form Container */
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Tighter gap */
+    width: 100%;
+    /* Reset width to 100% */
+    max-width: 100%;
+    margin: 0 auto;
+    align-items: flex-end;
+    /* Align form fields to Right */
+    justify-content: flex-end;
+    /* Align content to Right */
+    padding: 20px 40px 20px 0;
+    /* Right padding */
+}
+
+.address-form h3 {
+    text-align: center;
+    margin-left: 50px;
+    width: 100%;
+    margin-bottom: 25px;
+    align-self: center;
+    /* Flex override */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    /* Restore gap */
+    align-items: center;
+    justify-content: flex-end;
+    /* Fields align Right */
+    width: 100%;
+}
+
+/* Ensure the double-input row (City/State) aligns with the single rows */
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    /* Space between the two groups */
+    justify-content: center;
+    width: 100%;
+}
+
+/* Special handling for City and State groups inside form-row */
+.form-row .form-group {
+    justify-content: flex-end;
+    /* Push labels against inputs */
+    width: auto;
+    /* Don't take full width */
+}
+
+.address-form .form-row .form-group label {
+    width: 60px;
+    /* Smaller label for city/state */
+    text-align: right;
+    margin-right: 10px;
+}
+
+.form-row .form-group input {
+    width: 180px;
+    /* Smaller input for city/state */
+    max-width: 180px;
+}
+
+/* Labels - Right Aligned & Fixed Width */
+.address-form .form-group label {
+    font-weight: 600;
+    color: #05138e;
+    font-size: 15px;
+    width: 160px;
+    /* Match SignUp label width */
+    text-align: right;
+    margin-right: 15px;
+    flex-shrink: 0;
+    line-height: 1.5;
+}
+
+/* Inputs - Fixed Width */
+.address-form input[type="text"],
+.address-form input[type="tel"],
+.address-form textarea {
+    padding: 12px 14px;
+    border: 1.5px solid #dde3f0;
+    border-radius: 9px;
+    /* Match SignUp radius */
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 350px;
+    /* Match SignUp input width */
+    max-width: 350px;
+    box-sizing: border-box;
+    font-family: inherit;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.address-form textarea {
+    resize: vertical;
+    min-height: 80px;
+    height: auto;
+    /* Let textarea grow */
+    padding-top: 12px;
+}
+
+.address-form input:focus,
+.address-form textarea:focus {
+    border-color: #083ebe;
+    box-shadow: 0 0 0 3px rgba(8, 62, 190, 0.1);
+}
+
+/* Buttons */
+.submit_btn {
+    background: #f5e403;
+    /* Yellow Theme */
+    color: #121111;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+    width: 100%;
+    /* Removed margin-top override from JSX targeting via CSS if possible, or keep it generic */
+}
+
+.submit_btn:hover:not(:disabled) {
+    background: #e0d000;
+    transform: translateY(-1px);
+}
+
+.submit_btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cancel-btn {
+    background-color: #f1f3f5;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+.cancel-btn:hover {
+    background-color: #e9ecef;
+    color: #333;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: flex-start;
+    /* Center buttons */
+    width: 100%;
+    /* Removed padding-left offset which was causing the shift */
+    padding-left: 150px;
+    /* Align with inputs (Label width + margin) */
+}
+
+/* Specific styling for form buttons only */
+.address-form .submit_btn,
+.address-form .cancel-btn {
+    width: 160px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure the 'Add New Address' button (outside form) takes full width or desired style */
+.address-list .submit_btn {
+    width: 100%;
+    margin-top: 20px;
+}

@@ -1,0 +1,74 @@
+.container {
+   display: flex;
+   justify-content: center;
+   gap: 30px;
+   color: white;
+   padding-bottom: 50px;
+   border-bottom: #3a3838 solid 5px;
+}
+
+.container #div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 30px;
+   font-size: 20px;
+   font-weight: bold;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   transition: all 0.3s ease-in-out;
+}
+
+.container #div:hover {
+   box-shadow: 0 8px 16px 0 rgba(45, 41, 56, 0.944);
+   transform: translateY(-10px);
+   cursor: pointer;
+}
+
+.div1 {
+   background-color: blue;
+   color: white;
+   text-decoration: none;
+   width: 200px;
+   height: 200px;
+}
+
+.div2 {
+   background-color: rgb(18, 248, 56);
+   color: white;
+   text-decoration: none;
+   width: 200px;
+   height: 200px;
+}
+
+.div3 {
+   background-color: rgb(246, 133, 13);
+   color: white;
+   text-decoration: none;
+   width: 200px;
+   height: 200px;
+}
+
+.div4 {
+   background-color: rgb(236, 13, 143);
+   color: white;
+   text-decoration: none;
+   width: 200px;
+   height: 200px;
+}
+
+.div5 {
+   background-color: rgb(13, 236, 231);
+   color: white;
+   text-decoration: none;
+   width: 200px;
+   height: 200px;
+}
+
+.div6 {
+   background-color: rgb(236, 13, 13);
+   color: white;
+   text-decoration: none;
+   width: 200px;
+   height: 200px;
+}

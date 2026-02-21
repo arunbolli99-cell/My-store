@@ -1,0 +1,342 @@
+/* Premium Account Page Styles */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #2403fc 0%, #00d4ff 100%);
+    --card-bg: #ffffff;
+    --text-main: #111827;
+    --text-muted: #4b5563;
+    --border-color: #f1f5f9;
+}
+
+.account-page-container {
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+    font-family: 'Inter', sans-serif;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.account-header h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-top: 30px;
+    color: #000000;
+}
+
+.account-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.content-section {
+    background: var(--card-bg);
+    border-radius: 20px;
+    width: 1000px;
+    padding: 20px 35px 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    border: 1.5px solid #0d0d0d;
+}
+
+/* Profile Section - Centered Layout */
+.profile-info-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    /* Reduced from 50px */
+}
+
+.profile-top-info {
+    text-align: center;
+    margin-bottom: 15px;
+    /* Reduced from 25px */
+}
+
+.user-avatar-main {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    /* Reduced from 40px */
+}
+
+.user-avatar-main i {
+    font-size: 200px;
+    color: #94a3b8;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-name-main h3 {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin: 10px 0 5px;
+    font-weight: 700;
+}
+
+.user-name-main p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* 2x2 Details Grid */
+.profile-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 25px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1.5px solid #cbd5e1;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    background: #fff;
+    border-color: #2403fc;
+    box-shadow: 0 4px 15px rgba(36, 3, 252, 0.08);
+    transform: translateY(-3px);
+}
+
+.info-card i {
+    font-size: 1.4rem;
+    color: #2403fc;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* Address & History Titles */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.section-title i {
+    font-size: 1.4rem;
+    color: #2403fc;
+}
+
+.section-title h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.activity-placeholder {
+    color: #94a3b8;
+    text-align: center;
+    padding: 30px;
+    font-style: italic;
+}
+
+/* Edit Mode Styles */
+.profile-edit-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -20px;
+    z-index: 10;
+}
+
+.edit-btn,
+.save-btn,
+.cancel-btn {
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.edit-btn {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.edit-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.save-btn {
+    background: #2403fc;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.save-btn:hover {
+    background: #1a02b8;
+    box-shadow: 0 4px 12px rgba(36, 3, 252, 0.2);
+}
+
+.cancel-btn {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.cancel-btn:hover {
+    background: #fecaca;
+}
+
+.error-message-alt {
+    background: #fff1f2;
+    color: #e11d48;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid #fda4af;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Avatar Edit Overlay */
+.user-avatar-main {
+    position: relative;
+    cursor: default;
+}
+
+.user-avatar-main.editable {
+    cursor: pointer;
+}
+
+.profile-img-large {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.user-avatar-main.editable:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.avatar-overlay i {
+    color: #fff;
+    font-size: 2rem;
+}
+
+/* Edit Inputs */
+.name-edit-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.edit-input-main {
+    padding: 12px 20px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 200px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.edit-input-main:focus {
+    border-color: #2403fc;
+}
+
+.edit-input-small {
+    padding: 8px 15px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin-top: 5px;
+}
+
+.edit-input-small:focus {
+    border-color: #2403fc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .account-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .user-name-main h3 {
+        font-size: 1.6rem;
+    }
+}
